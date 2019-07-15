@@ -1,0 +1,92 @@
+package com.capgemini.ShoppingCart.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+
+import com.capgemini.ShoppingCart.Bean.Item;
+import com.capgemini.ShoppingCart.Bean.Order;
+import com.capgemini.ShoppingCart.DAO.ItemDao;
+import com.capgemini.ShoppingCart.DAO.ItemDaoImp;
+import com.capgemini.ShoppingCart.Exception.SCart;
+import com.capgemini.ShoppingCart.Service.CustomerOrderServiceImp;
+import com.capgemini.ShoppingCart.Utility.ItemRepositories;
+
+class CartTesting {
+	static CustomerOrderServiceImp TestCheck;
+
+	@BeforeAll
+	static void setUpBeforeClass() throws Exception {
+		TestCheck = new CustomerOrderServiceImp();
+	
+	}
+
+	@AfterAll
+	static void tearDownAfterClass() throws Exception {
+		TestCheck = null;
+	}
+
+	@BeforeEach
+	void setUp() throws Exception {
+
+		ItemRepositories itemrepo = new ItemRepositories();
+		Map<Integer, Item> items = itemrepo.getItems();
+		
+
+	}
+
+	@AfterEach
+	void tearDown() throws Exception {
+	}
+
+	void testaddToCart(Order items) {
+		assertTrue(TestCheck.addToCart(items));
+	}
+	void testgetItems() {
+		assertNotNull(TestCheck.getItems());
+		}
+	void testgetOrder() {
+		assertNotNull(TestCheck.printOrderedItems());
+		}
+	
+
+	@ParameterizedTest
+	@ValueSource(strings = { "Amber" })
+	void testIsValidName(String s) {
+		try {
+			assertTrue(TestCheck.isNamevalid(s));
+		} catch (SCart e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = { "9515766055" })
+	void testIsValidPhone(String s) {
+		try {
+			assertTrue(TestCheck.isPhonevalid(s));
+		} catch (SCart e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	void test() {
+
+	}
+
+}

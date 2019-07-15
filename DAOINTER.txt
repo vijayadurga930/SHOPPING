@@ -1,0 +1,14 @@
+package com.capgemini.ShoppingCart.DAO;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import com.capgemini.ShoppingCart.Bean.Item;
+
+public interface ItemDao {
+	
+	public Map<Integer,Item> itemlist=new HashMap<>();
+	
+	public Map<Integer,Item> getItems();
+	int addItem(Item item);
+}

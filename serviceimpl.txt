@@ -1,0 +1,71 @@
+package com.capgemini.ShoppingCart.Service;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import com.capgemini.ShoppingCart.Bean.Item;
+import com.capgemini.ShoppingCart.Bean.Order;
+import com.capgemini.ShoppingCart.DAO.ItemDao;
+import com.capgemini.ShoppingCart.DAO.ItemDaoImp;
+import com.capgemini.ShoppingCart.Exception.SCart;
+
+public class CustomerOrderServiceImp implements CustomerOrderService {
+	static int id = 100;
+	ItemDao itemDao = new ItemDaoImp();
+	Order order = new Order();
+	Map<Integer, Order> orderMap = new HashMap<Integer, Order>();
+
+	@Override
+	public boolean addToCart(Order item) {
+		int orderId = id++;
+		item.setOrderId(orderId);		
+		Order status = orderMap.put(orderId,item);
+   		if (status == null)
+			return true;
+		else
+			return false;
+	}
+
+	@Override
+	public List<Order> printOrderedItems() {
+		List<Order> orderedList = new ArrayList<>();
+		Collection<Order> collection = orderMap.values();
+		orderedList.addAll(collection);
+			
+		return orderedList;
+	}
+
+	@Override
+	public List<Item> getItems() {
+
+		List<Item> itemlist = new ArrayList<>();
+		Collection<Item> collection = itemDao.getItems().values();
+		itemlist.addAll(collection);
+		return itemlist;
+	}
+	
+	public boolean isNamevalid(String name) throws SCart {		
+		Pattern nameptn=Pattern.compile("^[A-Z]{1}[a-z]{4,}$");
+		Matcher match=nameptn.matcher(name);
+		if(match.matches()) {
+			return true;
+		}
+		return false;
+	}
+	public boolean isPhonevalid(String phone)throws SCart {		
+		Pattern nameptn=Pattern.compile("^[6-9]{1}[0-9]{9}$");
+		Matcher match=nameptn.matcher(phone);
+		if(match.matches()) {
+			return true;
+		}
+		return false;
+	}
+
+}

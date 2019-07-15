@@ -1,0 +1,65 @@
+package com.capgemini.ShoppingCart.Bean;
+
+import java.util.Map;
+
+public class Order {
+	private int orderId;
+	private String mobile;
+	private int itemId;
+	private int quantity;
+	private double amount;
+
+	public Order() {
+		super();
+	}
+	
+	public Order(int orderId, int itemId, int quantity, double amount) {
+		super();
+		this.orderId = orderId;
+		this.itemId = itemId;
+		this.quantity = quantity;
+		this.amount=amount;
+	}
+
+	public int getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(int orderId) {
+		this.orderId = orderId;
+	}
+
+	/*
+	 * public String getMobile() { return mobile; } public void setMobile(String
+	 * mobile) { this.mobile = mobile; }
+	 */
+	public int getItemId() {
+		return itemId;
+	}
+
+	public void setItemId(int itemId) {
+		this.itemId = itemId;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	public double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+
+	@Override
+	public String toString() {
+		return "OrderId=" + orderId + ", ItemId=" + itemId + ", Quantity=" + quantity + ",Amount :"+amount;
+	}
+
+}

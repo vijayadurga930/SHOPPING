@@ -1,0 +1,21 @@
+package com.capgemini.ShoppingCart.DAO;
+
+import java.util.Map;
+
+import com.capgemini.ShoppingCart.Bean.Item;
+
+public class ItemDaoImp implements ItemDao{
+
+	@Override
+	public Map<Integer, Item> getItems() {
+		
+		return itemlist;
+	}
+	public int addItem(Item item)
+	{
+		itemlist.put(item.getItemId(),item);
+		
+		return item.getItemId();
+	}
+	
+}

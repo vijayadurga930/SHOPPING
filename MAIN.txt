@@ -1,0 +1,165 @@
+package com.capgemini.ShoppingCart.UI;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.InputMismatchException;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+
+import com.capgemini.ShoppingCart.Bean.Item;
+import com.capgemini.ShoppingCart.Bean.Order;
+import com.capgemini.ShoppingCart.Exception.SCart;
+import com.capgemini.ShoppingCart.Service.CustomerOrderServiceImp;
+import com.capgemini.ShoppingCart.Utility.ItemRepositories;
+
+/**
+ * 
+ * @author Raone10
+ * @version 1.0 This is MainUI class taking the inputs.
+ *
+ */
+public class MainClientUI {
+
+	static CustomerOrderServiceImp service = new CustomerOrderServiceImp();
+	static Scanner scanner = new Scanner(System.in);
+
+	void Register() {
+		String name;
+		String phone;
+		boolean flag = false;
+		do {
+
+			System.out.println("Enter Name");
+			name = scanner.next();
+
+			try {
+				flag = service.isNamevalid(name);
+				if (!flag)
+					throw new SCart("Invalid Name");
+
+			} catch (SCart e) {
+				System.err.println(e.getMessage());
+			}
+
+		} while (!flag);
+
+		do {
+			System.out.println("Enter Phone Number");
+			phone = scanner.next();
+			try {
+				flag = service.isPhonevalid(phone);
+				if (!flag)
+					throw new SCart("Invalid Phone Number");
+			} catch (SCart e) {
+				System.err.println(e.getMessage());
+			}
+		} while (!flag);
+
+		String choice;
+
+		System.out.println(phone + " Registered Succesfully.!!");
+		do {
+			System.out.println(" 1.Placing the Order \n 2.Display the Cart \n 3.Exit");
+			int option = scanner.nextInt();
+
+			switch (option) {
+			case 1:
+				placeOrder();
+				break;
+			case 2:
+				displayCart();
+				break;
+			case 3:System.out.println("Thank you for Visiting..!!");
+				System.exit(0);
+				
+			default:
+				System.out.println("Enter Option 1 to 3  only");
+			}
+			System.out.println("Press Y to continue");
+			choice = scanner.next();
+		} while (choice.equalsIgnoreCase("y"));
+	}
+
+	private void displayCart() {
+		double totalAmount = 0;
+		List<Order> list = new ArrayList<>();
+		list = service.printOrderedItems();
+		Iterator<Order> iterator = list.iterator();
+		while (iterator.hasNext()) {
+			Order num = iterator.next();
+			System.out.println(num);
+			totalAmount = totalAmount + num.getAmount();
+		}
+		System.out.println("Total Amount is: Rs." + totalAmount);
+	}
+
+	private void placeOrder() {
+		ItemRepositories itemrepo = new ItemRepositories();
+		Map<Integer, Item> items = itemrepo.getItems();
+		double price = 0;
+		int id1;
+		Iterator<Item> iterator = items.values().iterator();
+		while (iterator.hasNext()) {
+			System.out.println(iterator.next());
+		}
+		do {
+		System.out.println("Enter Id");
+		id1 = scanner.nextInt();
+		if (id1 > 10 && id1 < 15) {
+			System.out.println("Enter Quantity");
+			int quantity = scanner.nextInt();
+
+			Iterator<Integer> iterator1 = items.keySet().iterator();
+
+			while (iterator1.hasNext()) {
+				int id = iterator1.next();
+				if (id1 == id) {
+					price = items.get(id).getPrice();
+					double amount = quantity * (price);
+					Order item = new Order(0, id, quantity, amount);
+
+					boolean status = service.addToCart(item);
+					if (status)
+						System.out.println("Added to cart successfully");
+					else
+						System.out.println("Error Ouccured");
+
+				}
+			}
+		} 
+		else
+			System.err.println("Enter Item Id 11,12,13 or 14");
+		
+		}while(id1<11 || id1>14);
+	}
+
+	public static void main(String[] args) {
+		MainClientUI clientUI = new MainClientUI();
+		System.out.println("Welcome to the Product Management System");
+		int choice = 2;
+		boolean flag = true;
+
+		System.out.println(" 1.Register \n 0.Exit");
+		try {
+
+			choice = scanner.nextInt();
+
+			switch (choice) {
+			case 1:
+				clientUI.Register();
+				break;
+			case 0:System.out.println("Come back Soon..!!");
+				System.exit(0);
+			default:
+				System.out.println("Please enter the Choice 1 or 0");
+
+			}
+		} catch (InputMismatchException e) {
+			System.err.println("Please enter 1 or 0 only");
+		}
+
+	}
+
+}

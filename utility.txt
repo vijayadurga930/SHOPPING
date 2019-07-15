@@ -1,0 +1,24 @@
+package com.capgemini.ShoppingCart.Utility;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import com.capgemini.ShoppingCart.Bean.Item;
+
+public class ItemRepositories {
+  
+	public static Map<Integer,Item> itemlist=new HashMap<>();
+	static {
+		itemlist.put(12,new Item(12,"Pen",10000));
+		itemlist.put(13,new Item(13,"Laptop",40000));
+		itemlist.put(11,new Item(11,"Mobile",20000));
+		itemlist.put(14,new Item(14,"Computer",30000));
+}
+	public static Map<Integer,Item> getItems(){
+		return itemlist;
+	}
+	public static void setItems(Map<Integer,Item> item) {
+		ItemRepositories.itemlist=item;
+	}
+
+}

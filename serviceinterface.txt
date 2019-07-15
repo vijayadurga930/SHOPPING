@@ -1,0 +1,16 @@
+package com.capgemini.ShoppingCart.Service;
+
+import java.util.List;
+
+import com.capgemini.ShoppingCart.Bean.Item;
+import com.capgemini.ShoppingCart.Bean.Order;
+import com.capgemini.ShoppingCart.Exception.SCart;
+
+public interface CustomerOrderService {
+	boolean addToCart(Order item);
+	List<Order> printOrderedItems();
+	public List<Item> getItems();
+	
+	public boolean isPhonevalid(String phone)throws SCart;
+	public boolean isNamevalid(String name) throws SCart;
+}
